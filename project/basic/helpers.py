@@ -9,6 +9,7 @@ from networkx.drawing.nx_pydot import write_dot
 
 GraphInfo: TypeAlias = tuple[int, int, set[str]]
 
+
 def get_unique_labels(
     graph: MultiDiGraph,
 ) -> set[str]:
@@ -18,7 +19,6 @@ def get_unique_labels(
         if label is not None:
             labels.add(label)
     return labels
-
 
 
 def get_graph_info(graph_name: str) -> GraphInfo:
