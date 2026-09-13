@@ -1,5 +1,3 @@
-"""Utilities for loading and generating labeled graphs."""
-
 from os import PathLike
 from typing import TypeAlias, Iterable, Any
 
@@ -36,7 +34,6 @@ def create_two_cycles_graph(
     labels: tuple[str, str] = ("a", "b"),
     output_file: str | PathLike[str] | None = None,
 ) -> MultiDiGraph:
-    """Create a labeled two-cycles graph and save it in DOT format."""
     graph = labeled_two_cycles_graph(
         first_cycle_size,
         second_cycle_size,
