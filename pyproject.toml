@@ -35,4 +35,4 @@ virtual = true
 allow-direct-references = true
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/formal_lang_course"]
+packages = ["project"]

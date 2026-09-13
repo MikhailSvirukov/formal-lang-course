@@ -1,7 +1,3 @@
-import pytest  # noqa: F401
-import project  # on import will print something from __init__ file # noqa: F401
-
-
 def setup_module(module):
     print("basic setup module")
 
