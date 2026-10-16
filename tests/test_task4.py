@@ -86,6 +86,7 @@ def test_ms_bfs_matches_tensor_algorithm_on_branching_graph():
         regex, graph, starts, finals
     )
 
+
 def test_ms_bfs_does_not_modify_inputs():
     graph = nx.MultiDiGraph()
     graph.add_edge(0, 1, label="a")

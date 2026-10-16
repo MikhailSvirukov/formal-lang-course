@@ -45,9 +45,7 @@ def ms_bfs_based_rpq(
                     reached[target] + frontier[source] @ graph_fa.matrices[symbol]
                 )
         for state in range(query.num_states):
-            frontier[state] = reached[state] != reached[state].multiply(
-                visited[state]
-            )
+            frontier[state] = reached[state] != reached[state].multiply(visited[state])
             visited[state] = visited[state] + frontier[state]
 
     accepted = csr_matrix(shape, dtype=bool)
