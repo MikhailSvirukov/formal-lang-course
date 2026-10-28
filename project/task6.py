@@ -3,6 +3,8 @@ from collections import defaultdict, deque
 from networkx import DiGraph
 from pyformlang.cfg import CFG, Production, Terminal, Variable
 
+from project.task2 import graph_to_nfa
+
 
 def cfg_to_weak_normal_form(cfg: CFG) -> CFG:
     normal_form = cfg.to_normal_form()
@@ -24,6 +26,7 @@ def hellings_based_cfpq(
     final_nodes: set[int] | None = None,
 ) -> set[tuple[int, int]]:
     grammar = cfg_to_weak_normal_form(cfg)
+    graph_automaton = graph_to_nfa(graph, start_nodes, final_nodes)
 
     epsilon_heads: set[Variable] = set()
     terminal_heads: dict[object, set[Variable]] = defaultdict(set)
@@ -52,17 +55,15 @@ def hellings_based_cfpq(
         ending_at[target].add(triple)
         queue.append(triple)
 
-    for node in graph.nodes:
+    for state in graph_automaton.states:
         for variable in epsilon_heads:
-            add(variable, node, node)
+            add(variable, state.value, state.value)
 
-    for source, target, data in graph.edges(data=True):
-        label = data.get("label")
-        if label is None:
-            continue
-        label_value = getattr(label, "value", label)
-        for variable in terminal_heads[label_value]:
-            add(variable, source, target)
+    for source, transitions in graph_automaton.to_dict().items():
+        for symbol, targets in transitions.items():
+            for target in targets:
+                for variable in terminal_heads[symbol.value]:
+                    add(variable, source.value, target.value)
 
     while queue:
         variable, source, target = queue.popleft()
@@ -75,8 +76,8 @@ def hellings_based_cfpq(
             for head in binary_heads[(variable, right_variable)]:
                 add(head, source, right_target)
 
-    starts = set(graph.nodes) if not start_nodes else set(start_nodes)
-    finals = set(graph.nodes) if not final_nodes else set(final_nodes)
+    starts = {state.value for state in graph_automaton.start_states}
+    finals = {state.value for state in graph_automaton.final_states}
     start_symbol = grammar.start_symbol
 
     return {
