@@ -33,9 +33,7 @@ def test_ebnf_to_rsm_preserves_regular_bodies():
 
     assert rsm.get_box("S").dfa.accepts(["open", "Body", "close"])
     assert rsm.get_box("Body").dfa.accepts(["transform"])
-    assert rsm.get_box("Body").dfa.accepts(
-        ["read", "retry", "read", "transform"]
-    )
+    assert rsm.get_box("Body").dfa.accepts(["read", "retry", "read", "transform"])
 
 
 def test_tensor_algorithm_finds_recursive_and_concatenated_paths():

@@ -11,9 +11,7 @@ from project.task6 import cfg_to_weak_normal_form
 def cfg_to_rsm(cfg: CFG) -> RecursiveAutomaton:
     grammar = cfg_to_weak_normal_form(cfg)
     terminal_values = {terminal.value for terminal in grammar.terminals}
-    used_labels = terminal_values | {
-        variable.value for variable in grammar.variables
-    }
+    used_labels = terminal_values | {variable.value for variable in grammar.variables}
     call_labels = {}
     counter = 0
     for variable in grammar.variables:
@@ -26,8 +24,7 @@ def cfg_to_rsm(cfg: CFG) -> RecursiveAutomaton:
         call_labels[variable] = Symbol(label)
 
     automata = {
-        variable: NondeterministicFiniteAutomaton()
-        for variable in grammar.variables
+        variable: NondeterministicFiniteAutomaton() for variable in grammar.variables
     }
     for automaton in automata.values():
         automaton.add_start_state(0)
@@ -57,9 +54,7 @@ def cfg_to_rsm(cfg: CFG) -> RecursiveAutomaton:
 
 def ebnf_to_rsm(ebnf: str) -> RecursiveAutomaton:
     heads = [
-        line.split("->", 1)[0].strip()
-        for line in ebnf.splitlines()
-        if "->" in line
+        line.split("->", 1)[0].strip() for line in ebnf.splitlines() if "->" in line
     ]
     if not heads:
         return RecursiveAutomaton()
@@ -115,9 +110,7 @@ def tensor_based_cfpq(
     final_nodes: set[int] | None = None,
 ) -> set[tuple[int, int]]:
     rsm_automaton, box_boundaries = _rsm_to_matrix_automaton(rsm)
-    graph_automaton = AdjacencyMatrixFA.from_graph(
-        graph, start_nodes, final_nodes
-    )
+    graph_automaton = AdjacencyMatrixFA.from_graph(graph, start_nodes, final_nodes)
     graph_size = graph_automaton.num_states
     if graph_size == 0 or rsm.initial_label not in rsm.boxes:
         return set()
